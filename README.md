@@ -1,42 +1,75 @@
-### 📋 Full Controller Table (Clean & Complete)
+# Hemora
 
-| **Controller**           | **Endpoint**                                     | **Method** | **Action**               | **Description**                                      |
-|--------------------------|--------------------------------------------------|------------|---------------------------|------------------------------------------------------|
-| **AuthController**       | `/register`                                      | POST       | `register`               | User registration                                    |
-|                          | `/login`                                         | POST       | `login`                  | User login                                           |
-|                          | `/logout`                                        | POST       | `logout`                 | Logout user                                          |
-|                          | `/user`                                          | GET        | `me`                     | Get current user info                                |
-|                          | `/auth/google`                                   | GET        | `redirectToGoogle`       | Google OAuth2 redirect                               |
-|                          | `/auth/google/callback`                          | GET        | `handleGoogleCallback`   | Handle OAuth2 login callback                         |
-| **UserController**       | `/user`                                          | PUT        | `update`                 | Update user profile                                  |
-|                          | `/me/properties`                                 | GET        | `myProperties`           | List properties owned by user                        |
-|                          | `/me/favorites`                                  | GET        | `favorites`              | List favorite properties                             |
-|                          | `/me/favorites/{id}`                             | POST       | `addFavorite`            | Add to favorites                                     |
-|                          | `/me/favorites/{id}`                             | DELETE     | `removeFavorite`         | Remove from favorites                                |
-| **PropertyController**   | `/properties`                                    | GET        | `index`                  | List all properties                                  |
-|                          | `/properties`                                    | POST       | `store`                  | Create a new property                                |
-|                          | `/properties/{id}`                               | GET        | `show`                   | Show a single property                               |
-|                          | `/properties/{id}`                               | PUT        | `update`                 | Update property details                              |
-|                          | `/properties/{id}`                               | DELETE     | `destroy`                | Delete property                                      |
-|                          | `/properties/town/{townId}`                      | GET        | `byTown`                 | Properties in a specific town                        |
-|                          | `/properties/type/bargains`                      | GET        | `bargains`               | List bargain-type properties                         |
-|                          | `/properties/new`                                | GET        | `newListings`            | List newly added properties                          |
-|                          | `/properties/recommended`                        | GET        | `recommended`            | Recommended for the user                             |
-| **SearchController**     | `/search/properties`                             | GET        | `advancedSearch`         | Full-text + polygon/geo search                       |
-| **CityController**       | `/cities`                                        | GET        | `index`                  | List all cities                                      |
-|                          | `/cities`                                        | POST       | `store`                  | Create new city                                      |
-|                          | `/cities/{id}/towns`                             | GET        | `towns`                  | Get towns within a city                              |
-| **TownController**       | `/towns`                                         | POST       | `store`                  | Create new town (polygon)                            |
-|                          | `/towns/{id}`                                    | PUT        | `update`                 | Update polygon data                                  |
-|                          | `/towns/{id}/properties`                         | GET        | `properties`             | Get properties in a town                             |
-| **AnalyticsController**  | `/analytics/global`                              | GET        | `globalAnalytics`        | Market stats across app                              |
-|                          | `/analytics/user`                                | GET        | `userAnalytics`          | User-specific stats                                  |
-|                          | `/analytics/track-view`                          | POST       | `trackView`              | Log property view                                    |
-| **MediaController**      | `/media/upload`                                  | POST       | `upload`                 | Upload image/media                                   |
-|                          | `/media/{id}`                                    | DELETE     | `delete`                 | Delete uploaded media                                |
-| **AdminController**      | `/admin/users`                                   | GET        | `listUsers`              | List all registered users                            |
-|                          | `/admin/properties/pending`                      | GET        | `pendingProperties`      | Get unapproved properties                            |
-|                          | `/admin/properties/{id}/approve`                 | POST       | `approveProperty`        | Approve a pending property listing                   |
-|                          | `/admin/properties/{id}/reject`                  | DELETE     | `rejectProperty`         | Reject a listing                                     |
+A Laravel/React application foundation with a proposed property-platform API.
 
----
+## Current status
+
+Early scaffold. Current routes implement starter authentication, profile/password settings, a welcome page, and an authenticated dashboard. The property, search, analytics, media, and administration API table is a plan, not the current controller surface.
+
+## Features and implementation
+
+- Laravel authentication routes for registration, login, password reset, and email verification.
+- Inertia-powered React/TypeScript pages.
+- Authenticated dashboard and profile/password settings.
+- Starter PHPUnit tests and lint/test workflows.
+- A preserved proposed API specification in docs/PLANNED_API.md.
+
+## Technology
+
+PHP >=8.2, Laravel 12, Inertia 2, React, TypeScript, Vite, Tailwind CSS, Composer, and npm.
+
+## Repository map
+
+| Path | Purpose |
+| --- | --- |
+| [routes/web.php](routes/web.php) | Welcome and dashboard routes |
+| [routes/auth.php](routes/auth.php) | Authentication routes |
+| [routes/settings.php](routes/settings.php) | Account settings routes |
+| [app/Http/Controllers](app/Http/Controllers) | Current controllers |
+| [resources/js](resources/js) | React/Inertia interface |
+| [tests](tests) | Starter test suite |
+| [docs/PLANNED_API.md](docs/PLANNED_API.md) | Proposed future API surface |
+
+## Local setup
+
+```bash
+git clone https://github.com/frontend-alex/Hemora.git
+cd Hemora
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+```
+
+Choose your local database in .env. If using the default SQLite setup, ensure database/database.sqlite exists before migrating. Then run:
+
+```bash
+php artisan migrate
+composer run dev
+```
+
+composer run dev starts the Laravel server, queue listener, and Vite process. Use the URL printed by the Laravel server.
+
+## Verification
+
+```bash
+composer run test
+npm run build
+npm run types
+npm run format:check
+```
+
+The repository contains starter tests and workflow files. Test execution and database migration were not performed during this documentation update.
+
+## Limitations and next steps
+
+- The proposed property/search API is not implemented in the current route/controller tree.
+- The project is based on the Laravel React starter kit; starter authentication should not be described as a completed property platform.
+- Domain models, authorization, search behavior, and acceptance tests remain development work.
+
+## Code review starting points
+
+- [routes/web.php](routes/web.php)
+- [routes/auth.php](routes/auth.php)
+- [routes/settings.php](routes/settings.php)
+- [composer.json](composer.json)
